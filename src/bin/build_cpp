@@ -1,0 +1,4 @@
+#!/bin/bash
+
+g++ -O3 -std=c++11 /u/student/bsc/adug96/Epidemicmodel/epidemic_on_hypergraphs_cpp/src/cpp/main.cpp /u/student/bsc/adug96/Epidemicmodel/epidemic_on_hypergraphs_cpp/src/cpp/country.cpp -o /u/student/bsc/adug96/Epidemicmodel/epidemic_on_hypergraphs_cpp/src/bin/main
+echo "Build done"
