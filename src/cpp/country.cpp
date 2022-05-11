@@ -7,6 +7,7 @@
 
 #include "country.h"
 
+
 void Country::init_agents(std::vector<int>& inf_nodes, int inf_node_num){
 
 
@@ -26,7 +27,7 @@ void Country::read_data(){
 
         unsigned int degree;
         std::cin>>degree;
-        hypergraph.resize_node(node, degree+1);
+        hypergraph.resize_node(node, degree);
         for(unsigned int j=0;j<degree;j++){
             std::cin>>hypergraph.get_neigh_edge(node, j);
         }
@@ -38,7 +39,7 @@ void Country::read_data(){
         std::cin>>edgesize;
         //unsigned int contactnumber;
         //std::cin>>contactnumber;
-        hypergraph.resize_edge(edge, edgesize+1);
+        hypergraph.resize_edge(edge, edgesize);
         for(unsigned int j=0;j<edgesize;j++){
             std::cin>>hypergraph.get_neigh_node(edge, j);
             hypergraph.SEIR[edge][S] = edgesize;
@@ -126,7 +127,7 @@ int Country::handle_S(unsigned int agent){
     std::vector<int> neigh_edges;
     neigh_edges = hypergraph.neigh_edge_indexes[agent];
     int degree=neigh_edges.size();
-    for(int i=0;i<degree;i++){
+    for(int i=0;i<degree+1;i++){
         p = p*(1-hypergraph.infection_prob[neigh_edges[i]]);
     }
     p = 1 - p;
@@ -134,7 +135,7 @@ int Country::handle_S(unsigned int agent){
         agents[states][agent] = E;
         agents[timers][agent] = E_time(generator);
         change = 1;
-        for(int i=0;i<degree;i++){
+        for(int i=0;i<degree+1;i++){
             hypergraph.SEIR[neigh_edges[i]][S] -= 1;
             hypergraph.SEIR[neigh_edges[i]][E] += 1;
         }
@@ -212,7 +213,7 @@ void Country::infection(std::array<int, SEIR_SIZE>& stats, bool second_wave, lon
 
     for(unsigned int edge=0;edge<hypergraph.edgeNum;edge++){
         long double I_edge = 0;
-        int size = hypergraph.neigh_node_indexes[edge].size();
+        int edgesize = hypergraph.neigh_node_indexes[edge].size();
         I_edge = hypergraph.SEIR[edge][I];
 
         //long double contactNum = hypergraph.contactnumber[edge];
@@ -227,7 +228,7 @@ void Country::infection(std::array<int, SEIR_SIZE>& stats, bool second_wave, lon
         else{
             double beta = args.beta;
             //double beta = args.beta * exp(1-I_sum/args.K);
-            p = (contactNum*beta*I_edge/(size-1));
+            p = (contactNum*beta*I_edge/(edgesize-1));
             //p = args.beta*I_city/graph.population[city];
             //std::cout.precision(17);
             //std::cout<<p<<" "<<I_sum<<" "<<std::endl;

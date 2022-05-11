@@ -161,7 +161,7 @@ def get_erdosrenyi(args):
     list_of_edges = {}
     n=args['n']
     i = 0
-    nodes=np.arange(start=1,stop=n+1)
+    nodes=np.arange(start=0,stop=n)
     while i < args['m']:
         nodelist=[]
         j = 0

@@ -44,7 +44,7 @@ class C_Country:
 
         # === City data ===
         str_graph = "{} {}\n".format(self.node_num, self.edge_num)
-        for node in range(self.node_num):
+        for node in self.hypergraph.nodes:
             neighs = [str(k) for k in edge_neighbors(node)]
             line = "{} {}\n".format(len(neighs), " ".join(neighs))
             str_graph += line
